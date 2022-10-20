@@ -105,3 +105,6 @@ dist
 
 # Apple Store Files
 .DS_Store
+
+# Planning Files
+.txt

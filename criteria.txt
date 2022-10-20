@@ -1,0 +1,23 @@
+Sections of Readme to be Gen:
+=============================
+title of my project
+Description
+Table of Contents 
+Installation 
+Usage 
+License 
+Contributing
+Test 
+Questions
+
+Questions to ask User for Input:
+================================
+
+What is this project called?
+Give a short description of your project
+How to install your project
+How do you use this project?
+Which license do you want to use? (list of licenses)
+How does someone contribute?
+How do you test this project?
+If user has questions, where do they go for answers || List of questions and answers
