@@ -1,67 +1,86 @@
 // TODO: Include packages needed for this application
 const inquirer = require('inquirer');
 const fs = require('fs');
+const generateMarkdown = require('./utils/generateMarkdown')
 
 // TODO: Create an array of questions for user input
-const questions = ['What is your project called?', 'Give a short description of your project:', 'How do you install this project?', 'How do you use this project?', 'Which license would you like to use for this project?', 'How should someone contribute?', 'How can someone test your project?', 'Where should someone go to find answers?'];
+const questions = [{
+  type: 'input',
+  message: 'What is your project called?',
+  name: 'projectName'
+},
+{
+  type: 'input',
+  message: 'Give a short description of your project:',
+  name: 'description'
+},
+{
+  type: 'input',
+  message: 'How do you install this project?',
+  name: 'install',
+},
+{
+  type: 'input',
+  message: 'How do you use this project?',
+  name: 'usage',
+},
+{
+  type: 'list',
+  message: 'Which license would you like to use for this project?',
+  name: 'license',
+  choices: ['MIT', 'Apache', 'GPL', 'None']
+},
+{
+  type: 'input',
+  message: 'What is your full name?',
+  name: 'fullName'
+},
+{
+  type: 'input',
+  message: 'How should someone contribute?',
+  name: 'contribute'
+},
+{
+  type: 'input',
+  message: 'How can someone test your project?',
+  name: 'test'
+},
+{
+  type: 'input',
+  message: 'What\'s your GitHub username?',
+  name: 'github'
+},
+{
+  type: 'input',
+  message: 'What\'s your email?',
+  name: 'email'
+}];
 
-inquirer
-  .prompt([
-    {
-      type: 'Input',
-      message: questions[0],
-      name: 'projectName'
-    },
-    {
-      type: 'Input',
-      message: questions[1],
-      name: 'description'
-    },
-    {
-      type: 'Input',
-      message: questions[2],
-      name: 'install',
-    },
-    {
-      type: 'Input',
-      message: questions[3],
-      name: 'usage',
-    },
-    {
-      type: 'List',
-      message: questions[4],
-      name: 'license',
-      options: ['MIT', 'Apache', 'GPL']
-    },
-    {
-      type: 'Input',
-      message: questions[5],
-      name: 'contribute'
-    },
-    {
-      type: 'Input',
-      message: questions[6],
-      name: 'test'
-    },
-    {
-      type: 'Input',
-      message: questions[7],
-      name: 'questions'
-    }
-  ]).then((response) => {
-    writeToFile(response)
-  })
 
 // TODO: Create a function to write README file
 function writeToFile(data) {
-  fs.writeFile('NEW-README.md', generateMarkdown(data), (err) => {
+  fs.appendFile('./utils/NEW-README.md', generateMarkdown(data), (err) => {
     err ? console.error('Error') : console.log('Success!');
   })
 }
 
 // TODO: Create a function to initialize app
+// Copied from 
 function init() {
-  
+  fs.unlink('./utils/NEW-README.md', function(err) {
+    if(err && err.code == 'ENOENT') {
+        // file doens't exist
+        console.info("File doesn't exist, won't remove it.");
+    } else if (err) {
+        // other errors, e.g. maybe we don't have enough permission
+        console.error("Error occurred while trying to remove file");
+    }
+
+  inquirer
+  .prompt(questions).then((response) => {
+    writeToFile(response)
+  });
+});
 }
 
 // Function call to initialize app
